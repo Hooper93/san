@@ -524,9 +524,13 @@ Component.prototype.$set = function (exprOrData, data) {
     if (typeof exprOrData === 'string') {
         return this.data.set(exprOrData, data);
     }
-    for (let key in exprOrData) {
-        exprOrData.hasOwnProperty(key) && this.data.set(key, exprOrData[key]);
+    if (typeof exprOrData === 'object') {
+        for (let key in exprOrData) {
+            exprOrData.hasOwnProperty(key) && this.data.set(key, exprOrData[key]);
+        }
+        return;
     }
+    throw new Error('[SAN ERROR] $set(string|object, *) first argument must be a [String]path or [Object]data.');
 };
 
 /**
